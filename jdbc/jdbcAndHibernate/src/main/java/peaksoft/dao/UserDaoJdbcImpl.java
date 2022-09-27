@@ -4,6 +4,7 @@ import peaksoft.model.User;
 
 import java.sql.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static peaksoft.util.Util.connect;
@@ -16,12 +17,13 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     public void createUsersTable()  {
-        String SQL = "CREATE TABLE user" +
-                "(name VARCHAR (50)," +
+        String SQL = "CREATE TABLE users(" +
+                "id SERIAL PRIMARY KEY," +
+                "name VARCHAR (50)," +
                 "lastName VARCHAR (60)," +
-                "age INTEGER NOT NULL)";
-        try (Connection connect = connect()) {
-            Statement statement = connect.createStatement();
+                "age SMALLINT NOT NULL)";
+        try (Connection connection = connect()) {
+            Statement statement = connection.createStatement();
             statement.executeUpdate(SQL);
             System.out.println("таблица успешно тузулду");
         } catch (SQLException e) {
@@ -31,7 +33,7 @@ public class UserDaoJdbcImpl implements UserDao {
 
 
     public void dropUsersTable(){
-             String DROP_SQL = "DROP TABLE user";
+             String DROP_SQL = "DROP TABLE users";
         try (Connection connect = connect();
              Statement statement = connect.createStatement()) {
             statement.executeUpdate(DROP_SQL);
@@ -42,12 +44,12 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age){
-        String SQL = "INSERT INTO user(name,lastName,age) VALUES(?,?,?)";
+        String SQL = "INSERT INTO users(name,lastName,age) VALUES(?,?,?)";
         try(Connection connect = connect();
             PreparedStatement statement = connect.prepareStatement(SQL)){
             statement.setString(1,name);
             statement.setString(2,lastName);
-            statement.setInt(3,age);
+            statement.setByte(3,age);
             statement.executeUpdate();
             System.out.println("маалымат кошулду");
         }catch (SQLException e){
@@ -56,7 +58,7 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String REMOVE_ID = "DELETE FROM user WHERE id = ?";
+        String REMOVE_ID = "DELETE FROM users WHERE id = ?";
         try(Connection connect = connect();
             PreparedStatement statement = connect.prepareStatement(REMOVE_ID)){
             statement.setInt(1, (int) id);
@@ -68,26 +70,31 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
-        String sql = "SELECT * FROM user";
+        String sql = "SELECT * FROM users";
+        List<User> users = new ArrayList<>();
         try(Connection connect = connect();
             Statement statement = connect.createStatement();
             ResultSet resultSet = statement.executeQuery(sql)){
-          //  List<User> users = new ArrayList<>();
             while (resultSet.next()){
+                User user1 = new User();
+                int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                String lastName = resultSet.getString("lastName");
+                String lastName = resultSet.getString("lastname");
                 int age = resultSet.getInt("age");
-               // users.add(name);
-
+                user1.setId((long) id);
+                users.add(user1);
+                user1.setName(name);
+                user1.setLastName(lastName);
+                user1.setAge((byte)age);
             }
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return users;
     }
 
     public void cleanUsersTable() {
-        String CLEAN_SQL ="TRUNCATE user";
+        String CLEAN_SQL ="TRUNCATE TABLE users";
         try(Connection connect = connect();
             Statement statement = connect.createStatement()){
             statement.executeUpdate(CLEAN_SQL);
