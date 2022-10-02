@@ -1,29 +1,48 @@
 package peaksoft.model;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Table
+@Entity
+@Table(name = "user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "user_name")
     private String name;
 
-    @Column
+    @Column(name = "user_lastName")
     private String lastName;
 
-    @Column
+    @Column(name = "user_age")
     private Byte age;
 
+
     public User() {
+
     }
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+//    private List<User> userList;
+//    public User() {
+//    }
 
     public User(String name, String lastName, Byte age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
     }
+
+
+
+//    public void addUserDaoToUser(User user){
+//        if (userList == null){
+//            userList = new ArrayList<>();
+//        }
+//        userList.add(user);
+//        user.setUserList((List<User>) this);
+//    }
 
     public Long getId() {
         return id;
@@ -56,6 +75,14 @@ public class User {
     public void setAge(Byte age) {
         this.age = age;
     }
+
+//    public List<User> getUserList() {
+//        return userList;
+//    }
+//
+//    public void setUserList(List<User> userList) {
+//        this.userList = userList;
+//    }
 
     @Override
     public String toString() {
