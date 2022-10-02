@@ -13,19 +13,18 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 
 
-
         UserDaoJdbcImpl userDaoJdbc = new UserDaoJdbcImpl();
 
-       // userDaoJdbc.createUsersTable();
+        userDaoJdbc.createUsersTable();
 
-    //   userDaoJdbc.saveUser("Куттубек","Жалалов",(byte) 24);
-//        userDaoJdbc.saveUser("Айдана","Камчыбекова",(byte) 23);
-//        userDaoJdbc.saveUser("Еламан","Рахманов",(byte) 21);
-//        userDaoJdbc.saveUser("Нурсулуу","Алмасова",(byte) 20);
-//
-       // userDaoJdbc.dropUsersTable();
+        userDaoJdbc.saveUser("Куттубек", "Жалалов", (byte) 24);
+        userDaoJdbc.saveUser("Айдана", "Камчыбекова", (byte) 23);
+        userDaoJdbc.saveUser("Еламан", "Рахманов", (byte) 21);
+        userDaoJdbc.saveUser("Нурсулуу", "Алмасова", (byte) 20);
+
+        userDaoJdbc.dropUsersTable();
         userDaoJdbc.removeUserById(2);
-//        userDaoJdbc.cleanUsersTable();
+        userDaoJdbc.cleanUsersTable();
 
 
         List<User> userList = userDaoJdbc.getAllUsers();
