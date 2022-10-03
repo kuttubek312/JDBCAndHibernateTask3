@@ -33,7 +33,7 @@ public class Main {
         userDao.saveUser("Нурсулуу","Алмасова",(byte) 21);
 
         userDao.removeUserById(2);
-        userDao.dropUsersTable();
+        //userDao.dropUsersTable();
         userDao.cleanUsersTable();
 
 

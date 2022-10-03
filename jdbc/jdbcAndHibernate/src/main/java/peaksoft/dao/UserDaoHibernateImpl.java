@@ -1,4 +1,5 @@
 package peaksoft.dao;
+import org.hibernate.QueryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import peaksoft.model.User;
@@ -8,7 +9,8 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    SessionFactory session = new Util().getSessionFactory();
+   // SessionFactory session = new Util().getSessionFactory();
+
 
     public UserDaoHibernateImpl() {
 
@@ -17,13 +19,12 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void createUsersTable() {
         try {Session session = Util.getSessionFactory().openSession();
+            session.createQuery("create table User(" +
+                    " id serial primary key," +
+                    " name varchar(30)," +
+                    " lastname varchar(40)," +
+                    " age smallint not null)").executeUpdate();
             session.beginTransaction();
-            String sql = "CREATE TABLE IF NOT EXISTS user_hibernate" +
-                    " id       BIGINT       PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                    " name     VARCHAR(250) DEFAULT NULL," +
-                    " lastname VARCHAR(250) DEFAULT NULL," +
-                    " age      TINYINT      DEFAULT NULL)";
-            session.save(sql);
             session.getTransaction().commit();
             session.close();
             System.out.println("hibernate таблицасы тузулду");
@@ -35,7 +36,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void dropUsersTable() {
         try {Session session = Util.getSessionFactory().openSession();
-            session.createQuery("DROP TABLE IF EXISTS user_hibernate");
+            session.createQuery("drop table User");
             session.beginTransaction();
             session.getTransaction().commit();
             session.close();
@@ -62,9 +63,9 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void removeUserById(long id) {
         try {Session session = Util.getSessionFactory().openSession();
-            session.beginTransaction();
-            session.createQuery("delete user_hibernate where id = :id")
+            session.createQuery("delete User where id = :id")
                     .setParameter("id", id).executeUpdate();
+            session.beginTransaction();
             session.getTransaction().commit();
             session.close();
             System.out.println("hibernate айди мн очуруу");
@@ -77,8 +78,8 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         try {Session session = Util.getSessionFactory().openSession();
+            userList = session.createQuery("from User order by name").list();
             session.beginTransaction();
-            userList = session.createQuery("from user_hibernate order by name").list();
             session.getTransaction().commit();
             session.close();
             System.out.println("hibernate >>>");
@@ -91,8 +92,8 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void cleanUsersTable() {
         try {Session session = Util.getSessionFactory().openSession();
+            session.createQuery("delete User").executeUpdate();
             session.beginTransaction();
-            session.createQuery("delete user_hibernate").executeUpdate();
             session.getTransaction().commit();
             session.close();
             System.out.println("hibernate чистка болду");

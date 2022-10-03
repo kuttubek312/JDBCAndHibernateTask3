@@ -1,9 +1,8 @@
 package peaksoft.model;
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "user_hibernate")
+@Table(name = "users_hb")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
