@@ -38,12 +38,12 @@ public class Util {
 
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "org.postgresql.Driver");
-                settings.put(Environment.URL,"jdbc:postgresql://localhost:5432/home_work_6");//home_work_6"
+                settings.put(Environment.URL,"jdbc:postgresql://localhost:5432/home_work_6");
                 settings.put(Environment.USER,"postgres");
                 settings.put(Environment.PASS,"kutu013kg");
-                settings.put(Environment.DIALECT,"org.hibernate.dialect.PostgresSQL9Dialect");
+                settings.put(Environment.DIALECT,"org.hibernate.dialect.PostgreSQLDialect");
                 settings.put(Environment.SHOW_SQL,"true");
-                settings.put(Environment.HBM2DDL_AUTO,"creat");
+                settings.put(Environment.HBM2DDL_AUTO,"create");
 
                 configuration.setProperties(settings);
 

@@ -1,9 +1,7 @@
 package peaksoft;
+import peaksoft.dao.UserDao;
 import peaksoft.dao.UserDaoHibernateImpl;
-import peaksoft.dao.UserDaoJdbcImpl;
-import peaksoft.model.User;
 import java.sql.SQLException;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -27,18 +25,18 @@ public class Main {
         System.out.println(userList);
          **/
 
-        UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
+        UserDao userDao = new UserDaoHibernateImpl();
+        userDao.createUsersTable();
+        userDao.saveUser("Медер","Тынычбеков",(byte) 23);
+        userDao.saveUser("Куттубек","Жалалов",(byte) 24);
+        userDao.saveUser("Айдана","Камчыбекова",(byte) 22);
+        userDao.saveUser("Нурсулуу","Алмасова",(byte) 21);
 
-        userDaoHibernate.createUsersTable();
+        userDao.removeUserById(2);
+        userDao.dropUsersTable();
+        userDao.cleanUsersTable();
 
-//        userDaoHibernate.saveUser("Куттубек","Жалалов",(byte) 24);
-//        userDaoHibernate.saveUser("Медер","Тынычбеков",(byte) 23);
-//        userDaoHibernate.saveUser("Айдана","Камчыбекова",(byte) 22);
-//        userDaoHibernate.saveUser("Нурсулуу","Алмасова",(byte) 21);
 
-//        userDaoHibernate.dropUsersTable();
-//        userDaoHibernate.removeUserById(3);
-//        userDaoHibernate.cleanUsersTable();
 
     }
 }

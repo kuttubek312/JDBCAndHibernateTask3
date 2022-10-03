@@ -1,7 +1,5 @@
 package peaksoft.dao;
-
 import peaksoft.model.User;
-
 import java.sql.SQLException;
 import java.util.List;
 

@@ -1,14 +1,9 @@
 package peaksoft.service;
-
 import peaksoft.dao.UserDao;
 import peaksoft.dao.UserDaoJdbcImpl;
 import peaksoft.model.User;
-
-
 import java.sql.*;
 import java.util.List;
-
-import static peaksoft.util.Util.connect;
 
 public class UserServiceImpl implements UserService {
 
