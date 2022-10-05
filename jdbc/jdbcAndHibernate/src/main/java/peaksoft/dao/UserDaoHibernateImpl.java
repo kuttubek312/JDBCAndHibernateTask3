@@ -1,16 +1,13 @@
 package peaksoft.dao;
-import org.hibernate.QueryException;
+
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import peaksoft.model.User;
-import peaksoft.util.Util;
+import peaksoft.util.UtilHibernate;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-
-   // SessionFactory session = new Util().getSessionFactory();
-
 
     public UserDaoHibernateImpl() {
 
@@ -18,7 +15,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        try {Session session = Util.getSessionFactory().openSession();
+        try {Session session = UtilHibernate.sessionFactory.openSession();
             session.createQuery("create table User(" +
                     " id serial primary key," +
                     " name varchar(30)," +
@@ -35,7 +32,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        try {Session session = Util.getSessionFactory().openSession();
+        try {Session session = UtilHibernate.getSessionFactory().openSession();
             session.createQuery("drop table User");
             session.beginTransaction();
             session.getTransaction().commit();
@@ -49,7 +46,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         try {
-            Session session = Util.getSessionFactory().openSession();
+            Session session = UtilHibernate.getSessionFactory().openSession();
             session.beginTransaction();
             session.save(new User(name, lastName, age));
             session.getTransaction().commit();
@@ -62,7 +59,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        try {Session session = Util.getSessionFactory().openSession();
+        try {Session session = UtilHibernate.getSessionFactory().openSession();
             session.createQuery("delete User where id = :id")
                     .setParameter("id", id).executeUpdate();
             session.beginTransaction();
@@ -76,13 +73,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        List<User> userList = new ArrayList<>();
-        try {Session session = Util.getSessionFactory().openSession();
-            userList = session.createQuery("from User order by name").list();
+          List<User> userList = new ArrayList<>();
+        try {Session session = UtilHibernate.getSessionFactory().openSession();
             session.beginTransaction();
+            userList =  session.createQuery("from User").list();
             session.getTransaction().commit();
             session.close();
-            System.out.println("hibernate >>>");
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -91,7 +87,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        try {Session session = Util.getSessionFactory().openSession();
+        try {Session session = UtilHibernate.getSessionFactory().openSession();
             session.createQuery("delete User").executeUpdate();
             session.beginTransaction();
             session.getTransaction().commit();
