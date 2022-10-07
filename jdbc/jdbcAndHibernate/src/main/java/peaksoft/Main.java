@@ -1,7 +1,9 @@
 package peaksoft;
 import peaksoft.dao.UserDao;
 import peaksoft.dao.UserDaoHibernateImpl;
+import peaksoft.model.User;
 import java.sql.SQLException;
+
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -26,17 +28,17 @@ public class Main {
          **/
 
         UserDao userDao = new UserDaoHibernateImpl();
-        userDao.createUsersTable();
-        userDao.saveUser("Медер","Тынычбеков",(byte) 23);
-        userDao.saveUser("Куттубек","Жалалов",(byte) 24);
-        userDao.saveUser("Айдана","Камчыбекова",(byte) 22);
-        userDao.saveUser("Нурсулуу","Алмасова",(byte) 21);
 
-        userDao.removeUserById(2);
-        userDao.dropUsersTable();
-        userDao.cleanUsersTable();
-        userDao.getAllUsers();
+       // userDao.createUsersTable();
+        User user = new User("Медер","Тынычбеков",(byte) 23);
+        userDao.saveUser(user.getName(),user.getLastName(),user.getAge());
 
+
+        User user2 = new User("Куттубек","Жалалов",(byte) 24);
+        userDao.saveUser(user2.getName(),user2.getLastName(),user2.getAge());
+
+        User user3 = new User("Нурсулуу","Алмасова",(byte) 21);
+        userDao.saveUser(user3.getName(),user3.getLastName(),user3.getAge());
 
 
     }

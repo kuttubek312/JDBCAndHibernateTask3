@@ -2,7 +2,7 @@ package peaksoft.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users_hb")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
